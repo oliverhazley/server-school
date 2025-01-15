@@ -58,3 +58,27 @@ app.use((req, res) => {
 app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
 });
+
+
+// Search Endpoint
+app.get('/api/data/search', (req, res) => {
+    const query = req.query.name?.toLowerCase();
+    if (!query) {
+        return res.status(400).json({ error: 'Query parameter "name" is required' });
+    }
+    const results = data.filter(item => item.name.toLowerCase().includes(query));
+    res.status(200).json(results);
+});
+
+
+// Pagination
+
+app.get('/api/data', (req, res) => {
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 5;
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+
+    const results = data.slice(startIndex, endIndex);
+    res.status(200).json(results);
+});
