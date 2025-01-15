@@ -1,2 +1,1 @@
-# server-school
-school project
+week 1 homework - all tasks done
