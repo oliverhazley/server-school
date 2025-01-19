@@ -3,6 +3,8 @@ const app = express();
 
 app.use(express.json());
 
+
+// Port 3000
 const PORT = 3000;
 
 // Sample in-memory data
@@ -50,7 +52,7 @@ app.put('/api/data/:id', (req, res) => {
     res.status(200).json(data[index]);
 });
 
-// Handle 404
+// Handle 404 errors
 app.use((req, res) => {
     res.status(404).json({ error: 'Resource not found' });
 });
@@ -71,7 +73,7 @@ app.get('/api/data/search', (req, res) => {
 });
 
 
-// Pagination
+// Pagination (QOL for future)
 
 app.get('/api/data', (req, res) => {
     const page = parseInt(req.query.page) || 1;
