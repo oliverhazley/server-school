@@ -1,86 +1,61 @@
-const express = require('express');
-const app = express();
+import express from 'express'; // Import Express
+import { getItems, getItemById, addItem, deleteItem } from './src/items.js'; // Import item routes
+import { getUsers, getUserById, createUser, loginUser } from './src/users.js'; // Import user routes
 
+const app = express(); // Initialize Express app
+const PORT = 3000; // Define server port
+
+// Middleware to parse incoming JSON
 app.use(express.json());
 
+// Register routes for items
 
-// Port 3000
-const PORT = 3000;
+// GET all items
+// URL: http://localhost:3000/items
+app.get('/items', getItems);
 
-// Sample in-memory data
-let data = [{ id: 1, name: 'Sample Item' }];
+// GET a specific item by ID
+// URL: http://localhost:3000/items/:id
+// Example: http://localhost:3000/items/1
+app.get('/items/:id', getItemById);
 
-// Get all data
-app.get('/api/data', (req, res) => {
-    res.status(200).json(data);
-});
+// POST to add a new item
+// URL: http://localhost:3000/items
+// Body (JSON): { "name": "New Item" }
+app.post('/items', addItem);
 
-// Add new data
-app.post('/api/data', (req, res) => {
-    const newItem = req.body;
-    if (!newItem || !newItem.name) {
-        return res.status(400).json({ error: 'Invalid data' });
-    }
-    newItem.id = data.length + 1;
-    data.push(newItem);
-    res.status(201).json(newItem);
-});
+// DELETE an item by ID
+// URL: http://localhost:3000/items/:id
+// Example: http://localhost:3000/items/1
+app.delete('/items/:id', deleteItem);
 
-// Delete data
-app.delete('/api/data/:id', (req, res) => {
-    const id = parseInt(req.params.id, 10);
-    const index = data.findIndex(item => item.id === id);
-    if (index === -1) {
-        return res.status(404).json({ error: 'Item not found' });
-    }
-    data.splice(index, 1);
-    res.status(204).send();
-});
+// Register routes for users
 
-// Update data
-app.put('/api/data/:id', (req, res) => {
-    const id = parseInt(req.params.id, 10);
-    const index = data.findIndex(item => item.id === id);
-    if (index === -1) {
-        return res.status(404).json({ error: 'Item not found' });
-    }
-    const updatedItem = req.body;
-    if (!updatedItem || !updatedItem.name) {
-        return res.status(400).json({ error: 'Invalid data' });
-    }
-    data[index] = { id, ...updatedItem };
-    res.status(200).json(data[index]);
-});
+// GET all users
+// URL: http://localhost:3000/users
+app.get('/users', getUsers);
+
+// GET a specific user by ID
+// URL: http://localhost:3000/users/:id
+// Example: http://localhost:3000/users/1
+app.get('/users/:id', getUserById);
+
+// POST to create a new user
+// URL: http://localhost:3000/users
+// Body (JSON): { "username": "***", "password": "***", "email": "***@***.***" }
+app.post('/users', createUser);
+
+// POST to login a user
+// URL: http://localhost:3000/users/login
+// Body (JSON): { "username": "johndoe", "password": "password1" }
+app.post('/users/login', loginUser);
 
 // Handle 404 errors
 app.use((req, res) => {
-    res.status(404).json({ error: 'Resource not found' });
+  res.status(404).json({ error: 'Resource not found' });
 });
 
+// Start the server
 app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-});
-
-
-// Search Endpoint
-app.get('/api/data/search', (req, res) => {
-    const query = req.query.name?.toLowerCase();
-    if (!query) {
-        return res.status(400).json({ error: 'Query parameter "name" is required' });
-    }
-    const results = data.filter(item => item.name.toLowerCase().includes(query));
-    res.status(200).json(results);
-});
-
-
-// Pagination (QOL for future)
-
-app.get('/api/data', (req, res) => {
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 5;
-    const startIndex = (page - 1) * limit;
-    const endIndex = page * limit;
-
-    const results = data.slice(startIndex, endIndex);
-    res.status(200).json(results);
+  console.log(`Server running on http://localhost:${PORT}`);
 });
