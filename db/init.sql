@@ -23,7 +23,8 @@ CREATE TABLE DiaryEntries (
     sleep_hours INT,
     notes TEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE --Cascade delete to remove child data also (example - user id = 1's data in meals table)
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
+
 );
 
 -- Create the WorkoutLogs table
@@ -35,7 +36,8 @@ CREATE TABLE WorkoutLogs (
     duration INT,
     calories_burned INT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE --Cascade delete to remove child data also
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
+
 );
 
 -- Create the Meals table
@@ -47,7 +49,8 @@ CREATE TABLE Meals (
     calories INT,
     notes TEXT,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE --Cascade delete to remove child data also
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE
+
 );
 
 -- Insert mock data into Users
@@ -74,7 +77,7 @@ INSERT INTO Meals (user_id, meal_date, meal_type, calories, notes) VALUES
 (1, '2024-02-01', 'Lunch', 600, 'Chicken salad'),
 (2, '2024-02-01', 'Dinner', 700, 'Steak and vegetables');
 
----------------------------- Sample Queries ------------------------
+-- Sample Queries --
 
 -- Get all users
 SELECT * FROM Users;
