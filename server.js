@@ -1,12 +1,17 @@
 import express from 'express'; // Import Express
 import { getItems, getItemById, addItem, deleteItem } from './src/items.js'; // Import item routes
 import { getUsers, getUserById, createUser, loginUser } from './src/users.js'; // Import user routes
+import cors from 'cors';
 
 const app = express(); // Initialize Express app
 const PORT = 3000; // Define server port
 
+
+app.use(cors());
 // Middleware to parse incoming JSON
 app.use(express.json());
+
+app.use('/', express.static('public'));
 
 // Register routes for items
 
