@@ -18,13 +18,34 @@ const getUserById = (req, res) => {
 };
 
 const createUser = (req, res) => {
-  const newUser = req.body;
-  if (!newUser || !newUser.username || !newUser.password || !newUser.email) {
-    return res.status(400).json({ error: 'Invalid data' });
-  }
-  newUser.id = users.length + 1;
-  users.push(newUser);
-  res.status(201).json(newUser);
+    const newUser = req.body;
+
+    // Validate user data
+    if (!newUser || !newUser.username || !newUser.password || !newUser.email) {
+        return res.status(400).json({ error: 'Invalid data' });
+    }
+
+    // Find the highest existing ID
+    const maxId = users.length > 0 ? Math.max(...users.map(user => user.id)) : 0;
+
+    // Assign a new unique ID
+    newUser.id = maxId + 1;
+
+    // Add the new user to the array
+    users.push(newUser);
+
+    // Send success response
+    res.status(201).json({ message: 'User created successfully', user: newUser });
+};
+
+const deleteUser = (req, res) => {
+    const id = parseInt(req.params.id, 10);
+    const index = users.findIndex(user => user.id === id);
+    if (index === -1) {
+        return res.status(404).json({ error: 'User not found' });
+    }
+    users.splice(index, 1);
+    res.status(200).json({ message: 'User deleted successfully' });
 };
 
 const loginUser = (req, res) => {
@@ -36,4 +57,4 @@ const loginUser = (req, res) => {
   res.status(200).json({ message: 'Login successful', user });
 };
 
-export { getUsers, getUserById, createUser, loginUser };
+export { getUsers, getUserById, createUser, loginUser, deleteUser };

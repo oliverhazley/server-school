@@ -1,6 +1,6 @@
 import express from 'express'; // Import Express
 import { getItems, getItemById, addItem, deleteItem } from './src/items.js'; // Import item routes
-import { getUsers, getUserById, createUser, loginUser } from './src/users.js'; // Import user routes
+import { getUsers, getUserById, createUser, loginUser, deleteUser } from './src/users.js'; // Import user routes
 import cors from 'cors';
 
 const app = express(); // Initialize Express app
@@ -49,6 +49,11 @@ app.get('/users/:id', getUserById);
 // URL: http://localhost:3000/users
 // Body (JSON): { "username": "***", "password": "***", "email": "***@***.***" }
 app.post('/users', createUser);
+
+// DELETE an item by ID
+// URL: http://localhost:3000/users/:id
+// Example: http://localhost:3000/users/1
+app.delete('/users/:id', deleteUser);
 
 // POST to login a user
 // URL: http://localhost:3000/users/login
