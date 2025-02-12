@@ -9,7 +9,7 @@ const pool = mysql.createPool({
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
-  charset: 'utf8mb4', // Ensures proper handling of special characters (optional but recommended)
+  charset: 'utf8mb4', 
 });
 
 pool.getConnection((err, connection) => {
