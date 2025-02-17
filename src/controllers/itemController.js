@@ -1,5 +1,7 @@
 import { getAllItems, getItemById, addItem, deleteItem } from '../models/itemModel.js';
 
+//placeholder - removed items - no use for it????
+
 export const getItems = async (req, res) => {
   const items = await getAllItems();
   res.status(200).json(items);

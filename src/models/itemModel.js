@@ -1,5 +1,7 @@
 import db from '../utils/database.js';
 
+//placeholder - removed items - no use for it?
+
 export const getAllItems = async () => {
   const [rows] = await db.query('SELECT * FROM items');
   return rows;

@@ -6,7 +6,7 @@ export const getAllUsers = async () => {
 };
 
 export const getUserById = async (id) => {
-  const [rows] = await db.query('SELECT * FROM users WHERE id = ?', [id]);
+  const [rows] = await db.query('SELECT * FROM users WHERE user_id = ?', [id]);
   return rows[0];
 };
 
@@ -17,7 +17,7 @@ export const createUser = async (user) => {
 };
 
 export const deleteUser = async (id) => {
-  const [result] = await db.query('DELETE FROM users WHERE id = ?', [id]);
+  const [result] = await db.query('DELETE FROM users WHERE user_id = ?', [id]);
   return result.affectedRows;
 };
 
