@@ -23,3 +23,12 @@ export const deleteEntry = async (id) => {
   const [result] = await db.query('DELETE FROM DiaryEntries WHERE entry_id = ?', [id]);
   return result.affectedRows;
 };
+
+export const addEntry = async (entry) => {
+  const { user_id, entry_date, mood, weight, sleep_hours, notes } = entry;
+  const [result] = await db.query(
+    'INSERT INTO DiaryEntries (user_id, entry_date, mood, weight, sleep_hours, notes) VALUES (?, ?, ?, ?, ?, ?)',
+    [user_id, entry_date, mood, weight, sleep_hours, notes]
+  );
+  return result.insertId;
+};

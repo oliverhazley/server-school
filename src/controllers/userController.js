@@ -22,9 +22,17 @@ export const getUser = async (req, res) => {
   res.status(200).json(user);
 };
 
-export const addUser = async (req, res) => {
-  const newUser = await createUser(req.body);
-  res.status(201).json(newUser);
+export const addUser = async (req, res, next) => {
+  try {
+    // If we get here - validation is passed
+    const newUser = await createUser(req.body);
+    // createUser does the hashing etc.
+
+    res.status(201).json(newUser);
+  } catch (error) {
+    // unexpected error - pass it to the error middleware:
+    next(error);
+  }
 };
 
 export const removeUser = async (req, res) => {

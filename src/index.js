@@ -6,6 +6,7 @@ import entryRoutes from './routes/entryRoutes.js';
 import medicationRoutes from './routes/medicationRoutes.js';
 import exerciseRoutes from './routes/exerciseRoutes.js';
 import authRouter from './routes/authRoutes.js';
+import { notFoundHandler, errorHandler } from './middlewares/errorHandler.js';
 
 
 const app = express();
@@ -23,9 +24,9 @@ app.use('/api/users', userRoutes);
 app.use('/api/auth', authRouter);
 
 // 404 Handler
-app.use((req, res) => {
-  res.status(404).json({ error: 'Resource not found' });
-});
+app.use(notFoundHandler);
+
+app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);

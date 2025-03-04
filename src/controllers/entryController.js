@@ -1,4 +1,6 @@
-import { getAllEntries, getEntryById, updateEntry, deleteEntry } from '../models/entryModel.js';
+import { getAllEntries, getEntryById, updateEntry, deleteEntry, addEntry } from '../models/entryModel.js';
+
+
 
 export const getEntry = async (req, res) => {
   res.json(await getEntryById(req.params.id));
@@ -42,4 +44,27 @@ export const removeEntry = async (req, res) => {
 
   const deleted = await deleteEntry(req.params.id);
   res.json(deleted ? { message: 'Entry deleted' } : { error: 'Nothing deleted' });
+};
+
+
+export const postEntry = async (req, res, next) => {
+  try {
+    // If we are here, validation succeeded
+    // user ID is from the JWT
+    const user_id = req.user.user_id;
+    const { entry_date, mood, weight, sleep_hours, notes } = req.body;
+
+    // Insert into DB
+    const newId = await addEntry({
+      user_id,
+      entry_date,
+      mood,
+      weight,
+      sleep_hours,
+      notes
+    });
+    res.status(201).json({ message: 'New entry created', entry_id: newId });
+  } catch (error) {
+    next(error);
+  }
 };
