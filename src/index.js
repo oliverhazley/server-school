@@ -18,7 +18,7 @@ const PORT = process.env.PORT || 3000;
 
 // Restrict CORS to Netlify frontend + local
 const allowedOrigins = [
-  'https://your-netlify-site.netlify.app',
+  'https://healthdiary.netlify.app/',
   'http://localhost:3000' // Allow localhost for testing
 ];
 
