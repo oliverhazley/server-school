@@ -4,8 +4,7 @@ import db from '../utils/database.js';
 
 /*
  this function returns all water logs in the table
- normally only admins would want every record,
- so watch out for permission checks in the controller
+ (for admin) - if needed
 */
 export const getAllWaterIntake = async () => {
   const [rows] = await db.query('SELECT * FROM WaterConsumption');
@@ -13,7 +12,7 @@ export const getAllWaterIntake = async () => {
 };
 
 /*
- this function returns water logs for a specific user
+ returns water logs for a specific user
 */
 export const getWaterIntakeByUser = async (userId) => {
   const [rows] = await db.query(
@@ -24,8 +23,8 @@ export const getWaterIntakeByUser = async (userId) => {
 };
 
 /*
- this function creates a new row in the database
- meaning we log the daily cups of water
+ creates a new row in the database
+ log the daily cups of water
 */
 export const createWaterIntake = async (userId, consumptionDate, cups) => {
   const [result] = await db.query(
@@ -36,7 +35,7 @@ export const createWaterIntake = async (userId, consumptionDate, cups) => {
 };
 
 /*
- this function updates an existing water record
+ updates an existing water record
 */
 export const updateWaterIntake = async (waterId, cups) => {
   const [result] = await db.query(
@@ -47,7 +46,7 @@ export const updateWaterIntake = async (waterId, cups) => {
 };
 
 /*
- this function deletes an existing water record by ID
+ deletes an existing water record by ID
 */
 export const deleteWaterIntake = async (waterId) => {
   const [result] = await db.query(

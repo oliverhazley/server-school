@@ -21,10 +21,9 @@ router.get('/', authenticateToken, getWaterLogs);
 /*
  POST /api/water
  create a new water log
- here, we say:
    - consumption_date must be a valid date
    - cups must be numeric, min 0, max 100
- then we run validationErrorHandler to see if there's an error
+ run validationErrorHandler to see if there is an error
 */
 router.post(
   '/',
@@ -38,7 +37,7 @@ router.post(
 /*
  PUT /api/water/:id
  update water log
- we say cups must be numeric too
+ cups must be number
 */
 router.put(
   '/:id',

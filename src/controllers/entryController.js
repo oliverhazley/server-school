@@ -10,15 +10,16 @@ import {
 } from '../models/entryModel.js';
 
 // fetch multiple entries
-// If user is new and has no entries, getEntriesByUserId() should return []
+// If user is new and has no entries, getEntriesByUserId() should return [] (empty)
+// we do this, so we can filter in frontend (newest first) lazy workaround
 export const getEntries = async (req, res) => {
   try {
     if (req.user.user_level === 'admin') {
-      const all = await getAllEntries(); // always an array, e.g. []
+      const all = await getAllEntries(); // always an array, []
       return res.json(all);
     } else {
       const userEntries = await getEntriesByUserId(req.user.user_id);
-      // if user is new, userEntries might be [] (0 rows).
+      // if user is new, userEntries should be [] (empty).
       // but it is still an array, so .map() won't crash.
       return res.json(userEntries);
     }
@@ -29,14 +30,14 @@ export const getEntries = async (req, res) => {
 };
 
 
-// fetch single entry by ID (for editing / detail view)
+// fetch single entry by ID
 export const getEntry = async (req, res) => {
   try {
     const entry = await getEntryById(req.params.id);
     if (!entry) {
       return res.status(404).json({ error: 'Entry not found' });
     }
-    // if not admin and user does not own this entry => 403
+    // if not an admin and the user does not own this entry => 403
     if (req.user.user_level !== 'admin' && entry.user_id !== req.user.user_id) {
       return res.status(403).json({ error: 'Not authorized to view this entry' });
     }
@@ -47,7 +48,7 @@ export const getEntry = async (req, res) => {
   }
 };
 
-// edit one entry
+// edit entry
 export const editEntry = async (req, res) => {
   try {
     const entry = await getEntryById(req.params.id);

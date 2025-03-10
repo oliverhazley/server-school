@@ -10,7 +10,7 @@ import {
 
 /*
  getWaterLogs
- if the user is an admin, we could return all logs
+ if the user is an admin, return all logs
  otherwise, we only return logs for the user making the request
 */
 export const getWaterLogs = async (req, res) => {
@@ -19,7 +19,7 @@ export const getWaterLogs = async (req, res) => {
       const data = await getAllWaterIntake();
       return res.json(data);
     } else {
-      // not admin => only your own logs
+      // not admin => only users own logs
       const data = await getWaterIntakeByUser(req.user.user_id);
       return res.json(data);
     }
@@ -40,7 +40,7 @@ export const postWaterLog = async (req, res) => {
     const userId = req.user.user_id;
     const { consumption_date, cups } = req.body;
 
-    // for example: consumption_date must be a valid date
+    // consumption_date must be a valid date
     // cups must be a positive number
 
     const newRecord = await createWaterIntake(userId, consumption_date, cups);
@@ -54,7 +54,7 @@ export const postWaterLog = async (req, res) => {
 /*
  putWaterLog
  update an existing water record
- we must confirm the user is either admin or
+ confirm the user is either admin or
  they actually own the record they are trying to edit
 */
 export const putWaterLog = async (req, res) => {
@@ -76,10 +76,10 @@ export const putWaterLog = async (req, res) => {
   }
 };
 
+
 /*
  deleteWaterLog
  remove a water record by its ID
-
 */
 export const deleteWaterLog = async (req, res) => {
   try {

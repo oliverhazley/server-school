@@ -7,6 +7,7 @@ import {
   deleteMedication
 } from '../models/medicationModel.js';
 
+// get all medications - admin / user seperation
 export const getMedications = async (req, res) => {
   try {
     if (req.user.user_level === 'admin') {
@@ -22,6 +23,7 @@ export const getMedications = async (req, res) => {
   }
 };
 
+// get medication by user_ID - seperate user / admin
 export const getMedication = async (req, res) => {
   try {
     const med = await getMedicationById(req.params.id);
@@ -38,6 +40,7 @@ export const getMedication = async (req, res) => {
   }
 };
 
+// add medication
 export const addMedication = async (req, res) => {
   try {
     // user id from token
@@ -51,6 +54,7 @@ export const addMedication = async (req, res) => {
   }
 };
 
+// remove medication - user can remove own / admin any
 export const removeMedication = async (req, res) => {
   try {
     const med = await getMedicationById(req.params.id);

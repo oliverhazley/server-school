@@ -10,11 +10,11 @@ import {
 export const getExercises = async (req, res) => {
   try {
     if (req.user.user_level === 'admin') {
-      // admin => all
+      // admin => see all
       const exercises = await getAllExercises();
       return res.json(exercises);
     } else {
-      // only user’s own
+      // user => only users own
       const userExercises = await getExercisesByUserId(req.user.user_id);
       return res.json(userExercises);
     }
@@ -25,7 +25,7 @@ export const getExercises = async (req, res) => {
 };
 
 export const getExercise = async (req, res) => {
-  // you may want a single exercise check if user is admin or user_id match
+  // single exercise, check if user is admin or user
   const exercise = await getExerciseById(req.params.id);
   if (!exercise) {
     return res.status(404).json({ error: 'Exercise not found' });
@@ -36,6 +36,7 @@ export const getExercise = async (req, res) => {
   res.json(exercise);
 };
 
+// add exercise
 export const addExercise = async (req, res) => {
   try {
     const user_id = req.user.user_id;
@@ -54,6 +55,7 @@ export const addExercise = async (req, res) => {
   }
 };
 
+// remove exercise
 export const removeExercise = async (req, res) => {
   try {
     // fetch the exercise
@@ -61,7 +63,7 @@ export const removeExercise = async (req, res) => {
     if (!exercise) {
       return res.status(404).json({ error: 'Exercise not found' });
     }
-    // check ownership or admin
+    // check ownership or if admin
     if (req.user.user_level !== 'admin' && exercise.user_id !== req.user.user_id) {
       return res.status(403).json({ error: 'Not authorized' });
     }

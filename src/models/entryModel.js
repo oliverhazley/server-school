@@ -14,7 +14,7 @@ export const getEntryById = async (id) => {
   return rows[0]; // single object
 };
 
-// NEW: get all entries for a specific user_id
+// get all entries for a specific user_id
 export const getEntriesByUserId = async (user_id) => {
   const [rows] = await db.query('SELECT * FROM DiaryEntries WHERE user_id = ?', [user_id]);
   // returns an array of rows

@@ -30,7 +30,7 @@ export const addUser = async (req, res, next) => {
 
     res.status(201).json(newUser);
   } catch (error) {
-    // unexpected error - pass it to the error middleware:
+    // unexpected error - pass it to the error middleware
     next(error);
   }
 };
