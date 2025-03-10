@@ -1,5 +1,7 @@
 import express from 'express';
 import cors from 'cors';
+import dotenv from 'dotenv';
+dotenv.config();
 
 import itemRoutes from './routes/itemRoutes.js';
 import userRoutes from './routes/userRoutes.js';
@@ -11,14 +13,30 @@ import waterRouter from './routes/waterRoutes.js';
 
 import { notFoundHandler, errorHandler } from './middlewares/errorHandler.js';
 
-
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-app.use(cors());
+// Restrict CORS to Netlify frontend + local
+const allowedOrigins = [
+  'https://your-netlify-site.netlify.app',
+  'http://localhost:3000' // Allow localhost for testing
+];
+
+app.use(cors({
+  origin: allowedOrigins,
+  methods: "GET,POST,PUT,DELETE",
+  credentials: true
+}));
+
 app.use(express.json());
 
-// API Routes
+// ✅ Log all incoming requests (useful for Azure monitoring)
+app.use((req, res, next) => {
+  console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
+  next();
+});
+
+// ✅ API Routes
 app.use('/api/items', itemRoutes);
 app.use('/api/entries', entryRoutes);
 app.use('/api/medications', medicationRoutes);
@@ -29,9 +47,8 @@ app.use('/api/water', waterRouter);
 
 // 404 Handler
 app.use(notFoundHandler);
-
 app.use(errorHandler);
 
 app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+  console.log(`Server running on port ${PORT}`);
 });

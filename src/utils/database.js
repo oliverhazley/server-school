@@ -1,5 +1,6 @@
+import dotenv from 'dotenv';
+dotenv.config();
 import mysql from 'mysql2';
-import 'dotenv/config';
 
 const pool = mysql.createPool({
   host: process.env.DB_HOST,
@@ -10,11 +11,13 @@ const pool = mysql.createPool({
   connectionLimit: 10,
   queueLimit: 0,
   charset: 'utf8mb4',
+  ssl: process.env.DB_SSL === 'true' ? { rejectUnauthorized: true } : false,
+
 });
 
 pool.getConnection((err, connection) => {
   if (err) {
-    console.error('Database connection failed:', err.stack);
+    console.error('Database connection failed:', err.message);
     return;
   }
   console.log('Connected to MySQL database as ID:', connection.threadId);
