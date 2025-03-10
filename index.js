@@ -3,15 +3,15 @@ import cors from 'cors';
 import dotenv from 'dotenv';
 dotenv.config();
 
-import itemRoutes from './routes/itemRoutes.js';
-import userRoutes from './routes/userRoutes.js';
-import entryRoutes from './routes/entryRoutes.js';
-import medicationRoutes from './routes/medicationRoutes.js';
-import exerciseRoutes from './routes/exerciseRoutes.js';
-import authRouter from './routes/authRoutes.js';
-import waterRouter from './routes/waterRoutes.js';
+import itemRoutes from './src/routes/itemRoutes.js';
+import userRoutes from './src/routes/userRoutes.js';
+import entryRoutes from './src/routes/entryRoutes.js';
+import medicationRoutes from './src/routes/medicationRoutes.js';
+import exerciseRoutes from './src/routes/exerciseRoutes.js';
+import authRouter from './src/routes/authRoutes.js';
+import waterRouter from './src/routes/waterRoutes.js';
 
-import { notFoundHandler, errorHandler } from './middlewares/errorHandler.js';
+import { notFoundHandler, errorHandler } from './src/middlewares/errorHandler.js';
 
 const app = express();
 const PORT = process.env.PORT || 3000;
