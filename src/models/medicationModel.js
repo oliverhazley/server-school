@@ -1,7 +1,13 @@
+// medicationModel.js
 import db from '../utils/database.js';
 
 export const getAllMedications = async () => {
   const [rows] = await db.query('SELECT * FROM Medications');
+  return rows;
+};
+
+export const getMedicationsByUserId = async (userId) => {
+  const [rows] = await db.query('SELECT * FROM Medications WHERE user_id = ?', [userId]);
   return rows;
 };
 
@@ -11,10 +17,11 @@ export const getMedicationById = async (id) => {
 };
 
 export const createMedication = async (medication) => {
-  const { user_id, name, dosage, frequency, start_date, end_date } = medication;
+  const { user_id, name, dosage, frequency } = medication;
+  // if you removed start/end date, then remove from the insert
   const [result] = await db.query(
-    'INSERT INTO Medications (user_id, name, dosage, frequency, start_date, end_date) VALUES (?, ?, ?, ?, ?, ?)',
-    [user_id, name, dosage, frequency, start_date, end_date]
+    'INSERT INTO Medications (user_id, name, dosage, frequency) VALUES (?, ?, ?, ?)',
+    [user_id, name, dosage, frequency]
   );
   return { medication_id: result.insertId, name };
 };

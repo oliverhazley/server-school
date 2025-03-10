@@ -1,10 +1,18 @@
+// medicationRoutes.js
 import express from 'express';
-import { getMedications, getMedication, addMedication, removeMedication } from '../controllers/medicationController.js';
+import {
+  getMedications,
+  getMedication,
+  addMedication,
+  removeMedication
+} from '../controllers/medicationController.js';
+import { authenticateToken } from '../middlewares/authentication.js';
 
 const medicationRouter = express.Router();
-medicationRouter.get('/', getMedications);
-medicationRouter.get('/:id', getMedication);
-medicationRouter.post('/', addMedication);
-medicationRouter.delete('/:id', removeMedication);
+
+medicationRouter.get('/', authenticateToken, getMedications);
+medicationRouter.get('/:id', authenticateToken, getMedication);
+medicationRouter.post('/', authenticateToken, addMedication);
+medicationRouter.delete('/:id', authenticateToken, removeMedication);
 
 export default medicationRouter;
