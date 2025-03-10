@@ -32,18 +32,18 @@ app.use(cors({
   },
   methods: "GET,POST,PUT,DELETE",
   allowedHeaders: ["Content-Type", "Authorization"],
-  credentials: true  // ✅ Allow cookies & authentication
+  credentials: true  
 }));
 
 app.use(express.json());
 
-// ✅ Log all incoming requests (useful for Azure monitoring)
+// Log all incoming requests (for Azure monitoring)
 app.use((req, res, next) => {
   console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`);
   next();
 });
 
-// ✅ API Routes
+// API Routes
 app.use('/api/items', itemRoutes);
 app.use('/api/entries', entryRoutes);
 app.use('/api/medications', medicationRoutes);
