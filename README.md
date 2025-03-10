@@ -2,6 +2,8 @@
 
 Tämä on Health Diary -sovelluksen README-tiedosto.
 
+[Link to front-end repo](https://github.com/oliverhazley/client-school)
+
 ## 1. Kuvakaappaukset käyttöliitymästä
 
 **Landing page**
